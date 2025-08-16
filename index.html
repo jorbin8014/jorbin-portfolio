@@ -118,7 +118,7 @@
                                 <div class="skill-bar w-[95%]"></div>
                             </div>
                         </div>
-                        <div>
+<!--                         <div>
                             <div class="flex justify-between mb-2">
                                 <span class="font-semibold text-gray-700">React/Next.js</span>
                                 <span class="text-gray-500">90%</span>
@@ -126,8 +126,8 @@
                             <div class="bg-gray-200 rounded-full h-2">
                                 <div class="skill-bar w-[90%]"></div>
                             </div>
-                        </div>
-                        <div>
+                        </div> -->
+<!--                         <div>
                             <div class="flex justify-between mb-2">
                                 <span class="font-semibold text-gray-700">Node.js</span>
                                 <span class="text-gray-500">88%</span>
@@ -135,7 +135,7 @@
                             <div class="bg-gray-200 rounded-full h-2">
                                 <div class="skill-bar w-[88%]"></div>
                             </div>
-                        </div>
+                        </div> -->
                     </div>
                     <div class="space-y-4">
                         <div>
@@ -156,7 +156,7 @@
                                 <div class="skill-bar w-[82%]"></div>
                             </div>
                         </div>
-                        <div>
+<!--                         <div>
                             <div class="flex justify-between mb-2">
                                 <span class="font-semibold text-gray-700">DevOps</span>
                                 <span class="text-gray-500">80%</span>
@@ -164,7 +164,7 @@
                             <div class="bg-gray-200 rounded-full h-2">
                                 <div class="skill-bar w-[80%]"></div>
                             </div>
-                        </div>
+                        </div> -->
                     </div>
                 </div>
             </div>
@@ -371,24 +371,46 @@ PROJECTS
         });
 
         // Contact form functionality
-        document.querySelector('form button, .btn-gradient:last-of-type').addEventListener('click', function(e) {
-            if (this.textContent.includes('Send Message')) {
-                e.preventDefault();
-                const name = document.querySelector('input[placeholder="Your Name"]').value;
-                const email = document.querySelector('input[placeholder="Your Email"]').value;
-                const message = document.querySelector('textarea').value;
-                
-                if (name && email && message) {
-                    alert('Thank you for your message! I\'ll get back to you soon.');
-                    // Clear form
-                    document.querySelector('input[placeholder="Your Name"]').value = '';
-                    document.querySelector('input[placeholder="Your Email"]').value = '';
-                    document.querySelector('textarea').value = '';
-                } else {
-                    alert('Please fill in all fields.');
-                }
-            }
+        const form = document.getElementById("contactForm");
+    const submitBtn = document.getElementById("submitBtn");
+    const ok = (el) => { el.classList.remove("hidden"); };
+    const hide = (el) => { el.classList.add("hidden"); };
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      hide(document.getElementById("alert-success"));
+      hide(document.getElementById("alert-error"));
+
+      // Basic HTML5 validation check
+      if (!form.checkValidity()) {
+        form.reportValidity();
+        return;
+      }
+
+      submitBtn.disabled = true;
+      submitBtn.textContent = "Sending...";
+
+      try {
+        const res = await fetch(form.action, {
+          method: "POST",
+          headers: { "Accept": "application/json" },
+          body: new FormData(form),
         });
+
+        if (res.ok) {
+          form.reset();
+          ok(document.getElementById("alert-success"));
+        } else {
+          ok(document.getElementById("alert-error"));
+        }
+      } catch (err) {
+        ok(document.getElementById("alert-error"));
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.textContent = "Send Message";
+      }
+    });
 
         // Add scroll animations
         const observerOptions = {
@@ -415,4 +437,5 @@ PROJECTS
     </script>
 <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'96843a20e6977f76',t:'MTc1NDAzOTY4NS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
+
 
